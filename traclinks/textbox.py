@@ -8,6 +8,7 @@
 # you should have received as part of this distribution.
 
 from copy import copy
+from genshi.builder import tag
 from genshi.filters.transform import Transformer
 from pkg_resources import ResourceManager
 from trac.attachment import Attachment
@@ -126,7 +127,10 @@ class TextBox(Component):
                             if v not in (None, '')])
                 traclinks = '[/newticket?%s]' % query_string
 
-            return stream | Transformer('//input[@id="proj-search"]').attr('value', traclinks).attr('size', '50')
+            #return stream | Transformer('//input[@id="proj-search"]').attr('value', traclinks).attr('size', '50')
+	    span = tag.span(traclinks, style="color: #888; font-size: 0.8em; font-style: italic; vertical-align: top")
+	    content = tag.div(span, id="banner__traclink", style="float:right")
+            return stream | Transformer('//div[@id="header"]').before(content)
         return stream
 
 # Implemented and tested:
