@@ -27,6 +27,15 @@ class TextBox(Component):
     """
     implements(ITemplateStreamFilter, ITemplateProvider)
 
+    style = ';'.join([e.strip() for e in '''color: #888
+                                            font-size: 0.8em
+                                            font-style: italic
+                                            vertical-align: top
+                                            text-align: right
+                                            width: 500px
+                                            border-width: 0px
+                                            text-overflow: ellipsis'''.split('\n')])
+
     def list_namespaces(self):
         providers = ExtensionPoint(IWikiSyntaxProvider).extensions(self.compmgr)
         for provider in providers:
@@ -127,7 +136,11 @@ class TextBox(Component):
                             if v not in (None, '')])
                 traclinks = '[/newticket?%s]' % query_string
 
-            return stream | Transformer('//input[@id="proj-search"]').attr('placeholder', traclinks).attr('size', '50')
+            #return stream | Transformer('//input[@id="proj-search"]').attr('placeholder', traclinks).attr('size', '50')
+            _input = tag.input(value=traclinks, readonly='', style=self.style)
+            div = tag.div(_input, id="banner__traclink", style="float:right")
+            return stream | Transformer('//div[@id="header"]').before(div)
+
         return stream
 
 # Implemented and tested:
