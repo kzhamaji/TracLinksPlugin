@@ -138,7 +138,7 @@ class TextBox(Component):
 
             #return stream | Transformer('//input[@id="proj-search"]').attr('placeholder', traclinks).attr('size', '50')
             _input = tag.input(value=traclinks, readonly='', style=self.style)
-            div = tag.div(_input, id="banner__traclink", style="float:right")
+            div = tag.div(_input, id="banner-traclink", style="float:right")
             return stream | Transformer('//div[@id="header"]').before(div)
 
         return stream
